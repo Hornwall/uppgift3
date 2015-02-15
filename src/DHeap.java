@@ -14,6 +14,12 @@ package alda.heap;
 //******************ERRORS********************************
 //Throws UnderflowException as appropriate
 
+/*
+* @author Hannes Hornvall haho2206 hornwall.hannes@gmail.com
+* @author Lotta Månsson loma3374 Mansson.lotta@gmail.com
+* @since  2015-02-15
+*/
+
 /**
  * Implements a binary heap. Note that all "matching" is based on the compareTo
  * method.
@@ -46,6 +52,12 @@ public class DHeap<AnyType extends Comparable<? super AnyType>> {
 			throw new IllegalArgumentException("must be 2 or greater");
 		this.d = d;
 	}
+	
+	public DHeap(int d, int capacity )
+    {
+		this(d);
+        array = (AnyType[]) new Comparable[ capacity + 1 ];
+    }
 
 	/**
 	 * Construct the binary heap given an array of items.
@@ -74,16 +86,15 @@ public class DHeap<AnyType extends Comparable<? super AnyType>> {
 		// Percolate up
 		int hole = ++currentSize;
 		if (hole > 1) {
-			int parrentIndex = parentIndex(hole);
-			while (hole != 1 && x.compareTo(array[parrentIndex]) < 0) {
+			int parentIndex = parentIndex(hole);
+			for (;hole != 1 && x.compareTo(array[parentIndex]) < 0; parentIndex = parentIndex(hole)) {
 				array[hole] = array[parentIndex(hole)];
-				hole = parrentIndex;
+				hole = parentIndex;
 				if (hole == 1)
 					break;
-				parrentIndex = parentIndex(hole);
 			}
 		}
-		array[hole] = x;
+		array[hole] = x;  
 	}
 
 	private void enlargeArray(int newSize) {
